@@ -33,8 +33,17 @@ Route::group(['middleware'=>'cors'],function(){ // Cors Middleware
 		Route::post('create-and-update-question','Api\Apicontroller@createAndUpdateQuestion');
 
 		Route::get('scheduled-teacher-data','Api\Apicontroller@getScheduledData');
+
+		Route::get('day-wise-scheduled-teacher-data','Api\Apicontroller@getScheduledDataDayWise');
+
+		Route::get('delete-scheduled-teacher-data','Api\Apicontroller@deleteScheduledData');
+
+
 		Route::post('scheduled-teacher-data/save','Api\Apicontroller@saveTeacherSchedule');
 		Route::get('teacher-slots','Api\Apicontroller@getTeacherSlots');
+		
+		Route::get('day-wise-teacher-slots','Api\Apicontroller@getTeacherSlotsDaywise');
+
 		Route::post('contact-us','Api\Apicontroller@contactUsFormSubmit');
 		Route::post('create-stripe-charge/by-token','Api\Apicontroller@createStripeCharge');
 		Route::post('purchaseBookingSlot-mentor','Api\Apicontroller@bookTheSlot');

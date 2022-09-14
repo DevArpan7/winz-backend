@@ -217,7 +217,7 @@ class Apicontroller extends Controller
                                 $newChapterPurchased->chapterId = $chap->id;
                                 $newChapterPurchased->courseId = $course->id;
                                 $newChapterPurchased->price = $chap->price;
-                                $newChapterPurchased->stripeTransactionId = $transaction->id;
+                                $newChapterPurchased->stripeTransactionId = $transaction->id ?? '';
                                 $newChapterPurchased->save();
                                 
                                 // creditlist update
@@ -650,6 +650,44 @@ class Apicontroller extends Controller
         return errorResponse($validator->errors()->first());
     }
 
+    /**
+     * date 14-09-2022
+     * copy of getScheduledData()
+     */
+    public function getScheduledDataDayWise(Request $req)
+    {
+        $rules = [
+          'teacherId' => 'required|min:1|numeric',
+        ];
+        $validator = validator()->make($req->all(),$rules);
+        if(!$validator->fails()){
+            $schedule = Schedule::where('teacherId',$req->teacherId)->groupBy("day", "time")->get();
+            return sendResponse('Teacher Scheduled Data',$schedule);
+        }
+        return errorResponse($validator->errors()->first());
+    }
+
+    public function deleteScheduledData(Request $req)
+    {
+        $rules = [
+          'teacherId' => 'required|min:1',
+          'day' => 'required',
+          'time' => 'required'
+        ];
+        $validator = validator()->make($req->all(),$rules);
+        if(!$validator->fails()){
+            $schedule = Schedule::where('teacherId',$req->teacherId)->where('day',$req->day)->where('time',$req->time)->delete();
+            if ($schedule) {
+                return sendResponse('Teacher Scheduled Data deleted',$schedule);
+            } else {
+                return errorResponse('Teacher Scheduled Data not deleted',$schedule);
+            }
+        }
+        return errorResponse($validator->errors()->first());
+    }
+
+
+
     public function getTeacherSlots(Request $req)
     {
         
@@ -682,39 +720,70 @@ class Apicontroller extends Controller
                 'previous_date' => '',
                 'slots' => $daysData,
             ];
-            dd($response);
+            // dd($response);
             return sendResponse('Available Slots',$response);
         }
         return errorResponse($validator->errors()->first());
     }
 
-    public function saveTeacherSchedule(Request $req)
+    /**
+     * copy of getTeacherSlots()
+     */
+    public function getTeacherSlotsDaywise(Request $req)
     {
         $rules = [
             'teacherId' => 'required|min:1|numeric',
-            'date' => 'required',
-            'time' => 'required',
-            'available' => 'required',
-        ];
-        $validator = validator()->make($req->all(),$rules);
-        if(!$validator->fails()){
-            Schedule::where('teacherId',$req->teacherId)->where('available','!=',2)->delete();
-            $date = explode('@rajeev@', $req->date);
-            $time = explode('@rajeev@', $req->time);
-            $available = explode('@rajeev@', $req->available);
-            foreach($date as $key => $eventData){
-                if($eventData != ''){
-                    $newSchedule = new Schedule();
-                    $newSchedule->teacherId = $req->teacherId;
-                    $newSchedule->date = date('Y-m-d',strtotime($date[$key]));
-                    $newSchedule->time = date('H:i',strtotime($time[$key]));
-                    $newSchedule->available = ($available[$key] == 'true') ? 1 : 0;
-                    $newSchedule->save();
+          ];
+          $validator = validator()->make($req->all(),$rules);
+          if(!$validator->fails()){
+            $schedule = Schedule::where('teacherId',$req->teacherId)->where('available', '!=', 2)->groupBy("day", "time")->get();
+            return sendResponse('Teacher Schedule Data',$schedule);
+          }
+          return errorResponse($validator->errors()->first());
+    }
+
+    public function saveTeacherSchedule(Request $req)
+    {
+        try {
+            $rules = [
+                'teacherId' => 'required|min:1|numeric',
+                'data' => 'required'
+            ];
+            $validator = validator()->make($req->all(),$rules);
+            if(!$validator->fails()){
+                $data = $req->data;
+                // $date = explode('@rajeev@', $req->date);
+                $schedules = [];
+
+                foreach($data as $key => $value){
+                    if($value != ''){
+                        $exist = Schedule::where('teacherId',$req->teacherId)
+                            ->where('day', '=', $value["day"])
+                            ->where('date', '=',  date('Y-m-d',strtotime($value["date"])))
+                            ->where('time', '=', date('H:i',strtotime($value["time"])))
+                            ->where('available', '!=', 2)
+                            ->first();
+                        
+                        if ($exist) return errorResponse("Schedule data already exist");                        
+                        if ($value["teacherId"] == '' || $value["day"] == '' || $value["date"] == '' || $value["time"] == '' || $value["available"] == '') return errorResponse("Teacher Id, Day, Date, Avaiable are required");
+
+                        $newSchedule = new Schedule();
+                        $newSchedule->teacherId = $value["teacherId"];
+                        $newSchedule->day = $value["day"];
+                        $newSchedule->date = date('Y-m-d',strtotime($value["date"]));
+                        $newSchedule->time = date('H:i',strtotime($value["time"]));
+                        $newSchedule->available = ($value["available"] == 'true') ? 1 : 0;
+                        $newSchedule->save();
+                        array_push($schedules, $newSchedule);
+                        
+                    }
                 }
+                return sendResponse('Scheduled Data Saved Success', $schedules);
             }
-            return sendResponse('Scheduled Data Saved Success');
+            return errorResponse($validator->errors()->first());
+        } catch (\Throwable $th) {
+            throw $th;
         }
-        return errorResponse($validator->errors()->first());
     }
 
     public function changeUserPassword(Request $req)
@@ -1016,6 +1085,46 @@ class Apicontroller extends Controller
             'slotId' => 'required|numeric|min:1',
             'userId' => 'required|numeric|min:1',
             'userType' => 'required|string|in:user,teacher',
+        ];
+        $validator = validator()->make($req->all(),$rules);
+        if(!$validator->fails()){
+            DB::beginTransaction();
+            try {
+                $stripe = StripeTransaction::where('id',$req->stripeTransactionId)->first();
+                $slot = Schedule::where('id',$req->slotId)->first();
+                $booking = new TeacherBooking();
+                $booking->stripeTransactionId = $stripe->id;
+                $booking->userId = $req->userId;
+                $booking->teacherId = $slot->teacherId;
+                $booking->scheduleId = $slot->id;
+                $booking->price = $stripe->amount;
+                $booking->save();
+                $slot->available = 2;
+                $slot->save();
+                $data = [
+                    'stripe' => $stripe,
+                    'Schedule' => $slot,
+                    'booking' => $booking,
+                ];
+                $this->createZoomMeeting($booking,$slot,$req->userType);
+                DB::commit();
+                return sendResponse('Slot Booked Success',$data);
+            }catch (Exception $e) {
+                DB::rollback();
+                return errorResponse('Something went wring please try after some time');
+            }
+        }
+        return errorResponse($validator->errors()->first());
+    }
+
+    /**
+     * copy of bookTheSlot()
+     */
+    public function bookTheCompleteSlot(Request $req)
+    {
+        $rules = [
+            'userId'    =>  'required|numeric|min:1',
+            'teacherId' =>  'required|numeric|min:1',
         ];
         $validator = validator()->make($req->all(),$rules);
         if(!$validator->fails()){
