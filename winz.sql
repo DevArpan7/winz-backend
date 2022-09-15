@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 11, 2022 at 10:08 AM
+-- Generation Time: Sep 15, 2022 at 03:54 PM
 -- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.28
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `demo9dtx_winz-v2`
+-- Database: `winz-new-13092022`
 --
 
 -- --------------------------------------------------------
@@ -47,7 +47,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `remember_token`, `phone`, `address`, `city`, `is_super`, `role_id`, `is_active`, `deleted_at`) VALUES
-(1, 'Admin', 'admin@gmail.com', '$2y$10$WowdOQVrztKJxq/kBOr0XO0vi2my7GWF4kxaqdmNeGZfCl3rsSGVO', '4sCYBGin9gyZGPDrgRdChVcFmp4tnTMKk0IcBCn9EsW9nMBf1g16EpKTisrH', '1234567890', 'Kolkata', 'Kolkata', 1, 0, 1, NULL),
+(1, 'Admin', 'admin@gmail.com', '$2y$10$WowdOQVrztKJxq/kBOr0XO0vi2my7GWF4kxaqdmNeGZfCl3rsSGVO', 'ejuYj0PdQWAzWXUPVdhJeLitOSQsR6djyBP8dXIB7otMs1g6BRraFNqJJE6w', '1234567890', 'Kolkata', 'Kolkata', 1, 0, 1, NULL),
 (3, 'Subham Dutta', 'subhamdutta.tp@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', NULL, '8877445566', 'Baguihati, Kolkata-700059', 'Kolkata', 0, 2, 1, NULL),
 (4, 'Soham Ghosh', 'gsoham.tp@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', NULL, '7278242319', 'Birati, Kolkata-700051', 'Kolkata', 0, 1, 1, NULL),
 (5, 'Admin', 'SEO@mashroo.com', '$2y$10$WowdOQVrztKJxq/kBOr0XO0vi2my7GWF4kxaqdmNeGZfCl3rsSGVO', '7yNQwE1A1GHjGaOEGyQ3PBpLWwqENrLo4eS4oG2cXWbCrdnE31ZLseoXURF4', '1234567890', 'Kolkata', 'Kolkata', 1, 0, 1, NULL);
@@ -265,7 +265,8 @@ INSERT INTO `buy_member_ships` (`id`, `stripeTransactionId`, `membershipId`, `us
 (3, 9, 1, 1, 'user', 20000.00, NULL, '2021-04-09 09:47:11', '2021-04-09 09:47:11'),
 (4, 30, 1, 685, 'teacher', 20000.00, NULL, '2021-07-15 11:34:53', '2022-07-20 07:46:22'),
 (5, 42, 1, 698, 'user', 10000.00, NULL, '2021-07-15 11:34:53', '2022-07-20 08:23:32'),
-(6, 42, 1, 935, 'user', 10000.00, NULL, '2021-07-15 11:34:53', '2022-07-20 08:23:32');
+(6, 42, 1, 935, 'user', 10000.00, NULL, '2021-07-15 11:34:53', '2022-07-20 08:23:32'),
+(15, 54, 2, 940, 'user', 50000.00, NULL, '2022-09-13 08:35:59', '2022-09-13 08:35:59');
 
 -- --------------------------------------------------------
 
@@ -489,11 +490,45 @@ CREATE TABLE `chapter_purchases` (
   `chapterId` bigint(20) NOT NULL,
   `courseId` bigint(20) NOT NULL,
   `price` float(8,2) NOT NULL,
-  `stripeTransactionId` bigint(20) NOT NULL,
+  `stripeTransactionId` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `chapter_purchases`
+--
+
+INSERT INTO `chapter_purchases` (`id`, `userId`, `chapterId`, `courseId`, `price`, `stripeTransactionId`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(83, 937, 53, 14, 499.00, '43', NULL, '2022-08-18 17:13:47', '2022-08-18 17:13:47'),
+(84, 937, 54, 14, 499.00, '43', NULL, '2022-08-18 17:13:47', '2022-08-18 17:13:47'),
+(85, 937, 55, 14, 499.00, '43', NULL, '2022-08-18 17:13:47', '2022-08-18 17:13:47'),
+(86, 937, 56, 14, 499.00, '43', NULL, '2022-08-18 17:13:47', '2022-08-18 17:13:47'),
+(87, 937, 57, 14, 499.00, '43', NULL, '2022-08-18 17:13:47', '2022-08-18 17:13:47'),
+(88, 852, 53, 14, 499.00, '44', NULL, '2022-08-19 16:56:08', '2022-08-19 16:56:08'),
+(89, 852, 54, 14, 499.00, '44', NULL, '2022-08-19 16:56:08', '2022-08-19 16:56:08'),
+(90, 852, 55, 14, 499.00, '44', NULL, '2022-08-19 16:56:08', '2022-08-19 16:56:08'),
+(91, 852, 56, 14, 499.00, '44', NULL, '2022-08-19 16:56:08', '2022-08-19 16:56:08'),
+(92, 852, 57, 14, 499.00, '44', NULL, '2022-08-19 16:56:08', '2022-08-19 16:56:08'),
+(93, 852, 58, 15, 499.00, '45', NULL, '2022-08-19 18:14:17', '2022-08-19 18:14:17'),
+(94, 852, 59, 15, 499.00, '45', NULL, '2022-08-19 18:14:17', '2022-08-19 18:14:17'),
+(95, 852, 60, 15, 499.00, '45', NULL, '2022-08-19 18:14:17', '2022-08-19 18:14:17'),
+(96, 852, 61, 15, 499.00, '45', NULL, '2022-08-19 18:14:17', '2022-08-19 18:14:17'),
+(97, 852, 62, 15, 499.00, '45', NULL, '2022-08-19 18:14:17', '2022-08-19 18:14:17'),
+(98, 938, 53, 14, 499.00, '46', NULL, '2022-08-21 18:01:46', '2022-08-21 18:01:46'),
+(99, 938, 54, 14, 499.00, '46', NULL, '2022-08-21 18:01:46', '2022-08-21 18:01:46'),
+(100, 938, 55, 14, 499.00, '46', NULL, '2022-08-21 18:01:46', '2022-08-21 18:01:46'),
+(101, 938, 56, 14, 499.00, '46', NULL, '2022-08-21 18:01:46', '2022-08-21 18:01:46'),
+(102, 938, 57, 14, 499.00, '46', NULL, '2022-08-21 18:01:46', '2022-08-21 18:01:46'),
+(103, 686, 53, 14, 499.00, '47', NULL, '2022-08-21 20:20:49', '2022-08-21 20:20:49'),
+(104, 686, 54, 14, 499.00, '47', NULL, '2022-08-21 20:20:49', '2022-08-21 20:20:49'),
+(105, 686, 55, 14, 499.00, '47', NULL, '2022-08-21 20:20:49', '2022-08-21 20:20:49'),
+(106, 686, 56, 14, 499.00, '47', NULL, '2022-08-21 20:20:49', '2022-08-21 20:20:49'),
+(107, 686, 57, 14, 499.00, '47', NULL, '2022-08-21 20:20:49', '2022-08-21 20:20:49'),
+(124, 940, 53, 14, 499.00, '', NULL, '2022-09-13 12:12:10', '2022-09-13 12:12:10'),
+(125, 940, 55, 14, 499.00, '', NULL, '2022-09-13 12:22:14', '2022-09-13 12:22:14'),
+(126, 940, 54, 14, 499.00, '', NULL, '2022-09-13 13:08:55', '2022-09-13 13:08:55');
 
 -- --------------------------------------------------------
 
@@ -48956,10 +48991,10 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`id`, `teacherId`, `course_name`, `price`, `course_image`, `course_description`, `is_verified`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(14, 1, 'Math AI SL', '9999', 'upload/course/1660111708.1981145639.jpg', '<p>This is test course description</p>', 1, NULL, '2022-08-09 05:56:04', '2022-08-10 13:38:59'),
-(15, 1, 'Math AA SL', '8999', 'upload/course/1660111733.1238968891.jpg', '<p>this is test description</p>', 1, NULL, '2022-08-09 06:05:13', '2022-08-10 13:38:53'),
-(16, 1, 'Math AI HL', '8999', 'upload/course/1660111781.1756991376.jpg', '<p>this is test description</p>', 1, NULL, '2022-08-09 07:04:48', '2022-08-10 13:38:49'),
-(17, 1, 'Math AA HL', '9999', 'upload/course/1660111790.1579991881.jpg', '<p>this is test description</p>', 1, NULL, '2022-08-09 07:05:40', '2022-08-10 13:38:41');
+(14, 1, 'Math AI SL', '9999', 'upload/course/1660910725_1635398081.png', '<p>Nam ut tellus pulvinar, faucibus ante id, laoreet nisl. Aenean consectetur enim orci, vitae faucibus elit pulvinar sed. Sed nec pharetra sapien, eu interdum nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent at mauris eget leo sagittis maximus ut id mi. Donec viverra metus sit amet dictum ultricies. Fusce cursus quam sit amet nisi volutpat, vel vestibulum erat scelerisque. Duis accumsan ultricies velit, in consequat elit feugiat facilisis. Donec in magna nulla.</p><p>Aliquam rhoncus suscipit orci, id volutpat massa lacinia ac. Mauris ut commodo lectus. Sed ut erat in metus posuere pretium. Suspendisse porta nisl sapien, eu vestibulum augue volutpat quis. Nulla eleifend viverra justo sed bibendum. Ut vitae sem nisl. Etiam sodales sem sit amet metus interdum ultricies.</p>', 1, NULL, '2022-08-09 05:56:04', '2022-08-19 17:36:29'),
+(15, 1, 'Math AA SL', '8999', 'upload/course/1660911914_1002145676.png', '<p>Aliquam sed turpis ac libero placerat pulvinar nec sed diam. Phasellus ac facilisis dolor. Vivamus pellentesque, tellus sed interdum ornare, quam mi venenatis eros, non bibendum diam nisi quis sapien. Mauris consectetur pharetra est. Donec consequat dui ut scelerisque sodales. Praesent auctor varius leo. In sagittis facilisis pulvinar. Cras ac sodales sapien. Donec ut consequat lacus, eget pulvinar felis. In non interdum magna, sed rutrum ante. Praesent rhoncus fermentum tellus, sed suscipit nisi sagittis vel.</p><p>Donec faucibus felis non sagittis dignissim. Cras tempus fermentum laoreet. Maecenas venenatis sem vel aliquam varius. Nulla fringilla augue at erat dictum, ut rhoncus quam vestibulum. Quisque in suscipit erat. Praesent pulvinar sit amet massa id pharetra. Morbi fermentum, erat in lobortis aliquet, dui urna aliquet ligula, quis vehicula sapien dolor a erat.</p>', 1, NULL, '2022-08-09 06:05:13', '2022-08-19 17:55:14'),
+(16, 1, 'Math AI HL', '8999', 'upload/course/1660912011_502112344.png', '<p>Donec faucibus felis non sagittis dignissim. Cras tempus fermentum laoreet. Maecenas venenatis sem vel aliquam varius. Nulla fringilla augue at erat dictum, ut rhoncus quam vestibulum. Quisque in suscipit erat. Praesent pulvinar sit amet massa id pharetra. Morbi fermentum, erat in lobortis aliquet, dui urna aliquet ligula, quis vehicula sapien dolor a erat.</p><p>Quisque quis ante accumsan, blandit lorem vitae, posuere purus. Donec vel sem quis urna dictum gravida vel at magna. Donec vel iaculis arcu, in facilisis lorem. Pellentesque ultricies felis a euismod auctor. Aenean ac ligula scelerisque, fringilla massa vitae, euismod nulla. Quisque dapibus rutrum erat, interdum ullamcorper orci gravida in. Fusce iaculis vitae ligula ac convallis. Praesent congue tempus tincidunt.</p>', 1, NULL, '2022-08-09 07:04:48', '2022-08-19 17:56:51'),
+(17, 1, 'Math AA HL', '9999', 'upload/course/1660912141_1160546270.png', '<p>Suspendisse nec ligula sollicitudin, laoreet risus id, aliquet ligula. In ac dolor diam. Pellentesque malesuada finibus nulla at egestas. Quisque venenatis fermentum placerat. Pellentesque vitae nibh ac tellus molestie efficitur. Mauris nec eros augue. Fusce interdum tellus in enim porttitor efficitur. Donec nec ante vel nulla viverra faucibus. Mauris quis vestibulum purus.</p><p>Donec condimentum justo vitae enim efficitur congue. In hac habitasse platea dictumst. Phasellus semper finibus metus, non vehicula libero suscipit vel. Integer finibus libero nec nibh posuere tincidunt. Etiam blandit et justo quis sodales. Proin tristique turpis magna, aliquam egestas leo imperdiet sed. Duis ac lectus fermentum, mattis nisi id, condimentum justo. Nam ac nisi consectetur, tincidunt metus sed, iaculis ligula. Sed maximus eleifend pharetra. Quisque hendrerit suscipit auctor. Sed non dictum justo. Duis a fringilla mauris.</p>', 1, NULL, '2022-08-09 07:05:40', '2022-08-19 17:59:01');
 
 -- --------------------------------------------------------
 
@@ -49059,7 +49094,8 @@ CREATE TABLE `creditlists` (
   `id` int(11) NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `amount` int(11) NOT NULL,
-  `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -49067,13 +49103,14 @@ CREATE TABLE `creditlists` (
 -- Dumping data for table `creditlists`
 --
 
-INSERT INTO `creditlists` (`id`, `user_id`, `amount`, `date`, `deleted_at`) VALUES
-(3, 1, 200, '2020-11-24 00:00:00', NULL),
-(4, 1, 400, '2020-11-24 00:00:00', NULL),
-(5, 2, 200, '2020-11-24 00:00:00', NULL),
-(6, 2, 400, '2020-11-24 00:00:00', NULL),
-(7, 3, 200, '2020-11-24 00:00:00', NULL),
-(8, 3, 400, '2020-11-24 00:00:00', NULL);
+INSERT INTO `creditlists` (`id`, `user_id`, `amount`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3, 1, 200, '2022-09-13 06:56:40', '2020-11-23 18:30:00', NULL),
+(4, 1, 400, '2022-09-13 06:56:40', '2020-11-23 18:30:00', NULL),
+(5, 2, 200, '2022-09-13 06:56:40', '2020-11-23 18:30:00', NULL),
+(6, 2, 400, '2022-09-13 06:56:40', '2020-11-23 18:30:00', NULL),
+(7, 3, 200, '2022-09-13 06:56:40', '2020-11-23 18:30:00', NULL),
+(8, 3, 400, '2022-09-13 06:56:40', '2020-11-23 18:30:00', NULL),
+(12, 940, 28503, '2022-09-13 13:08:55', '2022-09-13 13:08:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -49238,6 +49275,7 @@ CREATE TABLE `memberships` (
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `price` int(11) NOT NULL,
+  `credit` int(11) NOT NULL DEFAULT 0,
   `is_active` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=active',
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -49246,9 +49284,9 @@ CREATE TABLE `memberships` (
 -- Dumping data for table `memberships`
 --
 
-INSERT INTO `memberships` (`id`, `title`, `description`, `price`, `is_active`, `deleted_at`) VALUES
-(1, 'Gold', 'Gold Membership Plan', 200, 0, NULL),
-(2, 'Silver', 'silver membership plan', 450, 1, NULL);
+INSERT INTO `memberships` (`id`, `title`, `description`, `price`, `credit`, `is_active`, `deleted_at`) VALUES
+(1, 'Gold', 'Gold Membership Plan', 1000, 2000, 1, NULL),
+(2, 'Silver', 'silver membership plan', 500, 1000, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -49559,7 +49597,7 @@ CREATE TABLE `questions` (
   `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `difficulty` tinyint(4) NOT NULL COMMENT '1: Easy , 2: Medium, 3: Hard',
   `mark_scheme` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `answer1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `answer1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `answer2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `answer3` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `answer4` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -49578,8 +49616,8 @@ INSERT INTO `questions` (`id`, `categoryId`, `courseId`, `chapterId`, `subChapte
 (91, 1, 14, 53, 1179, 'upload/questions/1660201452_942703854.gif', NULL, NULL, 1, 'upload/questions/markScheme/1660201452_269099392.gif', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, '2022-08-11 07:04:12', '2022-08-11 07:08:02'),
 (92, 1, 14, 53, 1180, 'upload/questions/1660201601_873673601.gif', NULL, NULL, 1, 'upload/questions/markScheme/1660201601_1002983544.gif', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, '2022-08-11 07:06:41', '2022-08-11 07:06:41'),
 (93, 1, 14, 53, 1181, 'upload/questions/1660201783_1931487972.webp', NULL, NULL, 1, 'upload/questions/markScheme/1660201783_1173645949.webp', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, '2022-08-11 07:09:43', '2022-08-11 07:09:43'),
-(94, 1, 14, 54, 1182, 'upload/questions/1660201826_357892353.webp', NULL, NULL, 1, 'upload/questions/markScheme/1660201826_906826057.webp', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, '2022-08-11 07:10:26', '2022-08-11 07:10:26'),
-(95, 1, 14, 54, 1183, 'upload/questions/1660201860_61194194.gif', NULL, NULL, 2, 'upload/questions/markScheme/1660201860_1792974828.gif', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, NULL, '2022-08-11 07:11:00', '2022-08-11 07:11:00'),
+(94, 2, 14, 53, 1179, 'upload/questions/1660201826_357892353.webp', NULL, NULL, 1, 'upload/questions/markScheme/1660201826_906826057.webp', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, '2022-08-11 07:10:26', '2022-08-18 13:59:30'),
+(95, 2, 14, 53, 1179, 'upload/questions/1660201860_61194194.gif', NULL, NULL, 2, 'upload/questions/markScheme/1660201860_1792974828.gif', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, NULL, '2022-08-11 07:11:00', '2022-08-18 13:59:34'),
 (96, 1, 14, 54, 1184, 'upload/questions/1660201926_773101757.webp', NULL, NULL, 2, 'upload/questions/markScheme/1660201926_293097948.webp', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, '2022-08-11 07:12:06', '2022-08-11 07:12:06'),
 (97, 1, 14, 54, 1183, 'upload/questions/1660201956_1689144201.webp', NULL, NULL, 2, 'upload/questions/markScheme/1660201956_1934563790.webp', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, '2022-08-11 07:12:36', '2022-08-11 07:12:36'),
 (98, 1, 14, 55, 1185, 'upload/questions/1660202020_930549770.webp', NULL, NULL, 2, 'upload/questions/markScheme/1660202020_125765825.gif', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, '2022-08-11 07:13:40', '2022-08-11 07:13:40'),
@@ -49603,7 +49641,9 @@ INSERT INTO `questions` (`id`, `categoryId`, `courseId`, `chapterId`, `subChapte
 (116, 1, 16, 63, 1206, 'upload/questions/1660203704_137564681.webp', NULL, NULL, 1, 'upload/questions/markScheme/1660203704_846552213.webp', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, '2022-08-11 07:41:44', '2022-08-11 07:41:44'),
 (117, 1, 16, 63, 1207, 'upload/questions/1660203739_603448395.gif', NULL, NULL, 1, 'upload/questions/markScheme/1660203739_1064917473.gif', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, '2022-08-11 07:42:19', '2022-08-11 07:42:19'),
 (118, 1, 16, 63, 1208, 'upload/questions/1660203770_1335590440.webp', NULL, NULL, 3, 'upload/questions/markScheme/1660203770_785861237.webp', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, NULL, '2022-08-11 07:42:50', '2022-08-11 07:42:50'),
-(119, 1, 16, 63, 1209, 'upload/questions/1660203845_1026292808.gif', NULL, NULL, 1, 'upload/questions/markScheme/1660203845_669790329.gif', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, NULL, '2022-08-11 07:44:05', '2022-08-11 07:44:05');
+(119, 1, 16, 63, 1209, 'upload/questions/1660203845_1026292808.gif', NULL, NULL, 1, 'upload/questions/markScheme/1660203845_669790329.gif', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '<iframe width=\"100%\" height=\"315\" src=\"https://www.youtube.com/embed/jDZKlcGlFqQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, NULL, '2022-08-11 07:44:05', '2022-08-11 07:44:05'),
+(120, 3, 14, 53, 1179, '', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/U22DOMTGSdw\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, 1, '', NULL, NULL, NULL, NULL, NULL, '2022-08-18 19:54:55', '2022-08-18 14:50:51'),
+(121, 4, 14, 53, 1179, '', 'What is Voronoi Diagrams? [IB Math AI SL/HL]', NULL, 1, '', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/LOxlRQqHjs4\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', NULL, NULL, NULL, NULL, '2022-08-18 20:13:48', '2022-08-18 14:46:15');
 
 -- --------------------------------------------------------
 
@@ -49676,6 +49716,9 @@ CREATE TABLE `schedules` (
   `teacherId` bigint(20) NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
+  `day` tinyint(4) NOT NULL COMMENT '0: Sunday,\r\n1: Monday,\r\n2: Tuesday,\r\n3: Wednesday,\r\n4: Thursday,\r\n5: Friday,\r\n6: Saturday',
+  `duration` int(11) NOT NULL COMMENT 'In minutes',
+  `credit` int(11) NOT NULL,
   `available` tinyint(1) NOT NULL COMMENT '1: Availabel, 0: Not Available, 2: Booked',
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -49686,28 +49729,24 @@ CREATE TABLE `schedules` (
 -- Dumping data for table `schedules`
 --
 
-INSERT INTO `schedules` (`id`, `teacherId`, `date`, `time`, `available`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 8, '2022-07-21', '20:00:00', 2, NULL, '2021-03-31 11:32:25', '2022-07-20 10:17:47'),
-(2, 8, '2021-03-31', '21:00:00', 2, NULL, '2021-03-31 11:32:25', '2021-03-31 11:39:15'),
-(3, 8, '2021-03-31', '21:40:00', 2, NULL, '2021-03-31 12:00:52', '2021-03-31 12:02:45'),
-(4, 8, '2021-04-02', '19:03:00', 1, '2021-04-06 11:14:29', '2021-04-01 10:29:39', '2021-04-06 11:14:29'),
-(5, 8, '2021-04-06', '19:03:00', 2, NULL, '2021-04-06 11:14:29', '2021-04-06 11:15:49'),
-(6, 8, '2021-04-06', '21:11:00', 2, NULL, '2021-04-06 12:39:02', '2021-04-06 12:43:33'),
-(7, 8, '2021-04-07', '22:51:00', 2, NULL, '2021-04-06 13:15:48', '2021-04-06 13:17:44'),
-(8, 8, '2021-04-08', '07:46:00', 1, NULL, '2021-04-06 13:15:48', '2021-04-06 13:15:48'),
-(9, 1, '2021-04-13', '15:00:00', 2, NULL, '2021-04-12 07:27:22', '2021-04-12 07:28:07'),
-(10, 7, '2021-08-11', '15:15:00', 1, NULL, '2021-08-11 15:15:17', '2021-08-11 15:15:17'),
-(11, 6, '2021-10-14', '21:10:00', 1, '2021-10-06 18:09:09', '2021-10-06 18:07:22', '2021-10-06 18:09:09'),
-(12, 6, '2021-10-07', '21:10:00', 1, '2021-10-06 18:10:43', '2021-10-06 18:09:09', '2021-10-06 18:10:43'),
-(13, 6, '2021-10-07', '21:10:00', 1, '2021-10-06 18:11:10', '2021-10-06 18:10:43', '2021-10-06 18:11:10'),
-(14, 6, '2021-10-06', '06:10:00', 1, '2021-10-06 18:11:10', '2021-10-06 18:10:43', '2021-10-06 18:11:10'),
-(15, 6, '2021-10-08', '21:13:00', 1, '2021-10-06 18:11:10', '2021-10-06 18:10:43', '2021-10-06 18:11:10'),
-(16, 6, '2021-10-09', '06:10:00', 1, '2021-10-06 18:11:10', '2021-10-06 18:10:43', '2021-10-06 18:11:10'),
-(17, 6, '2021-10-07', '21:10:00', 2, NULL, '2021-10-06 18:11:10', '2021-10-06 18:13:42'),
-(18, 6, '2021-10-06', '06:10:00', 1, NULL, '2021-10-06 18:11:10', '2021-10-06 18:11:10'),
-(19, 6, '2021-10-08', '21:13:00', 1, NULL, '2021-10-06 18:11:10', '2021-10-06 18:11:10'),
-(20, 6, '2021-10-09', '06:10:00', 1, NULL, '2021-10-06 18:11:10', '2021-10-06 18:11:10'),
-(21, 6, '2021-10-07', '07:13:00', 1, NULL, '2021-10-06 18:11:10', '2021-10-06 18:11:10');
+INSERT INTO `schedules` (`id`, `teacherId`, `date`, `time`, `day`, `duration`, `credit`, `available`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 7, '2022-09-05', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:57', '2022-09-15 13:39:57'),
+(2, 7, '2022-09-12', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:57', '2022-09-15 13:39:57'),
+(3, 7, '2022-09-19', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(4, 7, '2022-09-26', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(5, 7, '2022-10-03', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(6, 7, '2022-10-10', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(7, 7, '2022-10-17', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(8, 7, '2022-10-24', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(9, 7, '2022-10-31', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(10, 7, '2022-11-07', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(11, 7, '2022-11-14', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(12, 7, '2022-11-21', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(13, 7, '2022-11-28', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(14, 7, '2022-12-05', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(15, 7, '2022-12-12', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:58', '2022-09-15 13:39:58'),
+(16, 7, '2022-12-19', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:59', '2022-09-15 13:39:59'),
+(17, 7, '2022-12-26', '19:00:00', 1, 120, 500, 1, NULL, '2022-09-15 13:39:59', '2022-09-15 13:39:59');
 
 -- --------------------------------------------------------
 
@@ -54018,7 +54057,30 @@ INSERT INTO `stripe_transactions` (`id`, `transactionId`, `balance_transaction`,
 (39, 'ch_3Jgqpn2eZvKYlo2C128ZqEvK', 'txn_3Jgqpn2eZvKYlo2C1zjGqTtl', 114796.00, 'Test payment from itsolutionstuff.com.', 'card_1Jgqpi2eZvKYlo2CjDd8nBA7', 'card', '12', '2024', '4242', NULL, '2021-10-04 18:34:00', '2021-10-04 18:34:00'),
 (40, 'ch_3JhZSo2eZvKYlo2C1O9fh7gP', 'txn_3JhZSo2eZvKYlo2C1xixSvFM', 10000.00, 'Test payment from itsolutionstuff.com.', 'card_1JhZSk2eZvKYlo2Cc9nb2ucc', 'card', '12', '2024', '4242', NULL, '2021-10-06 18:13:15', '2021-10-06 18:13:15'),
 (41, 'ch_3JhZTF2eZvKYlo2C09JzksLo', 'txn_3JhZTF2eZvKYlo2C0aGcO2Hg', 10000.00, 'Test payment from itsolutionstuff.com.', 'card_1JhZTB2eZvKYlo2COzvy098w', 'card', '12', '2024', '4242', NULL, '2021-10-06 18:13:42', '2021-10-06 18:13:42'),
-(42, 'ch_1IfKBm2eZvKYlo2CRAWmRioh', 'txn_1IfKBm2eZvKYlo2CP2lH4WRF', 10000.00, 'Test payment from itsolutionstuff.com.', 'card_1IfKBi2eZvKYlo2CdRFgKJiM', 'card', '12', '2024', '4242', NULL, '2021-04-12 07:28:07', '2021-04-12 07:28:07');
+(42, 'ch_1IfKBm2eZvKYlo2CRAWmRioh', 'txn_1IfKBm2eZvKYlo2CP2lH4WRF', 10000.00, 'Test payment from itsolutionstuff.com.', 'card_1IfKBi2eZvKYlo2CdRFgKJiM', 'card', '12', '2024', '4242', NULL, '2021-04-12 07:28:07', '2021-04-12 07:28:07'),
+(43, 'ch_3LY78Y2eZvKYlo2C07rOSZFn', 'txn_3LY78Y2eZvKYlo2C0Y8DmKAA', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LY78T2eZvKYlo2CSwrr93pi', 'card', '5', '2025', '4242', NULL, '2022-08-18 17:13:47', '2022-08-18 17:13:47'),
+(44, 'ch_3LYTL02eZvKYlo2C1hTrUy8R', 'txn_3LYTL02eZvKYlo2C19Fu1Ldy', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LYTKw2eZvKYlo2CleJBqAmB', 'card', '12', '2039', '4242', NULL, '2022-08-19 16:56:07', '2022-08-19 16:56:07'),
+(45, 'ch_3LYUYd2eZvKYlo2C0MY4i5hY', 'txn_3LYUYd2eZvKYlo2C0QP4BWAs', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LYUYZ2eZvKYlo2CZzG7BAaU', 'card', '4', '2024', '4242', NULL, '2022-08-19 18:14:16', '2022-08-19 18:14:16'),
+(46, 'ch_3LZDJc2eZvKYlo2C0LOXeStS', 'txn_3LZDJc2eZvKYlo2C0i385IYB', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LZDJY2eZvKYlo2CZtpbnvQW', 'card', '12', '2023', '4242', NULL, '2022-08-21 18:01:46', '2022-08-21 18:01:46'),
+(47, 'ch_3LZFUC2eZvKYlo2C19axkirf', 'txn_3LZFUC2eZvKYlo2C11nq2Rgn', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LZFU82eZvKYlo2C24G3wdwD', 'card', '5', '2026', '4242', NULL, '2022-08-21 20:20:49', '2022-08-21 20:20:49'),
+(48, 'ch_3LhSwB2eZvKYlo2C0eE2cjcA', 'txn_3LhSwB2eZvKYlo2C0fMs80JI', 50000.00, 'Test payment from itsolutionstuff.com.', 'card_1LhSw52eZvKYlo2CIcMuhh56', 'card', '12', '2023', '4242', NULL, '2022-09-13 06:49:40', '2022-09-13 06:49:40'),
+(49, 'ch_3LhSzN2eZvKYlo2C0Adm0Oif', 'txn_3LhSzN2eZvKYlo2C0nzm8yXe', 100000.00, 'Test payment from itsolutionstuff.com.', 'card_1LhSzK2eZvKYlo2CgsCmsI51', 'card', '12', '2023', '4242', NULL, '2022-09-13 06:52:59', '2022-09-13 06:52:59'),
+(50, 'ch_3LhT5R2eZvKYlo2C1AYXiKEd', 'txn_3LhT5R2eZvKYlo2C1SOemWYB', 50000.00, 'Test payment from itsolutionstuff.com.', 'card_1LhT5N2eZvKYlo2CXsfutFXM', 'card', '12', '2023', '4242', NULL, '2022-09-13 06:59:14', '2022-09-13 06:59:14'),
+(51, 'ch_3LhUJI2eZvKYlo2C0xSuowa6', 'txn_3LhUJI2eZvKYlo2C0v41CSGD', 50000.00, 'Test payment from itsolutionstuff.com.', 'card_1LhUJE2eZvKYlo2C3yOzSvf1', 'card', '12', '2023', '4242', NULL, '2022-09-13 08:17:38', '2022-09-13 08:17:38'),
+(52, 'ch_3LhUMd2eZvKYlo2C0XTvKxOe', 'txn_3LhUMd2eZvKYlo2C0VPszWL4', 50000.00, 'Test payment from itsolutionstuff.com.', 'card_1LhUMZ2eZvKYlo2CJ5e8xzg4', 'card', '12', '2023', '4242', NULL, '2022-09-13 08:21:04', '2022-09-13 08:21:04'),
+(53, 'ch_3LhUO32eZvKYlo2C0gfwbyga', 'txn_3LhUO32eZvKYlo2C0eiTOvXX', 100000.00, 'Test payment from itsolutionstuff.com.', 'card_1LhUNz2eZvKYlo2Cp9uo57UJ', 'card', '12', '2023', '4242', NULL, '2022-09-13 08:22:32', '2022-09-13 08:22:32'),
+(54, 'ch_3LhUb42eZvKYlo2C0145XJaE', 'txn_3LhUb42eZvKYlo2C0EsMVPaR', 50000.00, 'Test payment from itsolutionstuff.com.', 'card_1LhUb02eZvKYlo2CiO0cMyjP', 'card', '12', '2023', '4242', NULL, '2022-09-13 08:35:59', '2022-09-13 08:35:59'),
+(55, 'ch_3LhVM82eZvKYlo2C0h5V7AUo', 'txn_3LhVM82eZvKYlo2C0GXJ6GFO', 49900.00, 'Test payment from itsolutionstuff.com.', 'card_1LhVM42eZvKYlo2C5u0Yyb5q', 'card', '12', '2023', '4242', NULL, '2022-09-13 09:24:38', '2022-09-13 09:24:38'),
+(56, 'ch_3LhVOf2eZvKYlo2C1tfWWgzh', 'txn_3LhVOf2eZvKYlo2C10E6LGN9', 199600.00, 'Test payment from itsolutionstuff.com.', 'card_1LhVOb2eZvKYlo2C990AhBT5', 'card', '12', '2023', '4242', NULL, '2022-09-13 09:27:15', '2022-09-13 09:27:15'),
+(57, 'ch_3LhVuw2eZvKYlo2C1kVEh0iH', 'txn_3LhVuw2eZvKYlo2C1bRE1uUv', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhVus2eZvKYlo2C4En02QoP', 'card', '12', '2023', '4242', NULL, '2022-09-13 10:00:35', '2022-09-13 10:00:35'),
+(58, 'ch_3LhW0M2eZvKYlo2C0eNS3xkv', 'txn_3LhW0M2eZvKYlo2C0RWkFpSG', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhW0I2eZvKYlo2CxvdopnnX', 'card', '12', '2023', '4242', NULL, '2022-09-13 10:06:11', '2022-09-13 10:06:11'),
+(59, 'ch_3LhW1k2eZvKYlo2C1DrmhRJ7', 'txn_3LhW1k2eZvKYlo2C1FaZmMGx', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhW1g2eZvKYlo2CeengvdZZ', 'card', '12', '2023', '4242', NULL, '2022-09-13 10:07:37', '2022-09-13 10:07:37'),
+(60, 'ch_3LhW4u2eZvKYlo2C1ZLdPdyQ', 'txn_3LhW4u2eZvKYlo2C14OINjbS', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhW4r2eZvKYlo2CqOOTzoWx', 'card', '12', '2023', '4242', NULL, '2022-09-13 10:10:54', '2022-09-13 10:10:54'),
+(61, 'ch_3LhW6B2eZvKYlo2C1qqzpJAb', 'txn_3LhW6B2eZvKYlo2C1r8pgV5A', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhW672eZvKYlo2Ctx5Br4DQ', 'card', '12', '2023', '4242', NULL, '2022-09-13 10:12:12', '2022-09-13 10:12:12'),
+(62, 'ch_3LhW7e2eZvKYlo2C0C55gRx8', 'txn_3LhW7e2eZvKYlo2C0Q7bfnmL', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhW7b2eZvKYlo2CFEqJMG9n', 'card', '12', '2023', '4242', NULL, '2022-09-13 10:13:44', '2022-09-13 10:13:44'),
+(63, 'ch_3LhW8v2eZvKYlo2C1uVcKyif', 'txn_3LhW8v2eZvKYlo2C1wU4q7CV', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhW8r2eZvKYlo2CKgQSMpHZ', 'card', '12', '2023', '4242', NULL, '2022-09-13 10:15:02', '2022-09-13 10:15:02'),
+(64, 'ch_3LhXIi2eZvKYlo2C1lv8yoHl', 'txn_3LhXIi2eZvKYlo2C1nRxBVtg', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhXIe2eZvKYlo2CN9fm3cBe', 'card', '3', '2043', '4242', NULL, '2022-09-13 11:29:14', '2022-09-13 11:29:14'),
+(65, 'ch_3LhXJh2eZvKYlo2C0qBmAZtC', 'txn_3LhXJh2eZvKYlo2C05PGJaF1', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhXJd2eZvKYlo2CkWmsbvrf', 'card', '12', '2023', '4242', NULL, '2022-09-13 11:30:14', '2022-09-13 11:30:14');
 
 -- --------------------------------------------------------
 
@@ -54585,7 +54647,8 @@ INSERT INTO `users` (`id`, `membership_id`, `name`, `email`, `mobile`, `password
 (931, NULL, 'Med.bougrine', 'med.bougrine49@gmail.com', '', 'eb0d4b526b3a506ec345a9ce81300ad1', '', NULL, 'assets/img/default_profile.png', 0, '', NULL, '', '', 1, NULL),
 (932, 1, 'Rajib Ali Khan', 'rajibalikhan299@gmail.com', '8617207525', '$2y$10$Xecnk6DDIcxiWxQfCOPvGeY6fZ.14uvm77uMMmsFYTLAFALwBsvWS', 'user', NULL, NULL, 0, '', NULL, '', '', 1, NULL),
 (933, NULL, 'Rajib Ali Khan', 'test@gmail.com', '8617207525', '$2y$10$norDrERk0Mb2M1ty5OKX9OKv7A2q92iJU6cCvyiA5XhgN3j9gDCCi', 'teacher', NULL, NULL, 1, '', NULL, '', '', 1, NULL),
-(935, 1, 'test', 'test2@gmail.com', '9865432258', '$2y$10$szypxIXrRx0CCsXCDdlDW.uOtRl6IB5W9m2NwCiEA9Dfr0cL2TPcm', 'user', NULL, NULL, 0, '', NULL, '', '', 1, NULL);
+(935, 1, 'test', 'test2@gmail.com', '9865432258', '$2y$10$szypxIXrRx0CCsXCDdlDW.uOtRl6IB5W9m2NwCiEA9Dfr0cL2TPcm', 'user', NULL, NULL, 0, '', NULL, '', '', 1, NULL),
+(940, 2, 'Arpan Chanda', 'arpan@onenesstechs.in', '', '$2y$10$.WZFG4Fj1GVxf63KsmbEnuZwg9azcB7hu6W5EbThHwOPvnTnYi7O6', 'user', NULL, 'http://127.0.0.1:8000/assets/img/default_profile.jpg', 0, '', NULL, '', '', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -55108,7 +55171,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `buy_member_ships`
 --
 ALTER TABLE `buy_member_ships`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `carts`
@@ -55126,7 +55189,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `chapter_purchases`
 --
 ALTER TABLE `chapter_purchases`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- AUTO_INCREMENT for table `cities`
@@ -55198,7 +55261,7 @@ ALTER TABLE `course_features`
 -- AUTO_INCREMENT for table `creditlists`
 --
 ALTER TABLE `creditlists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `downloads`
@@ -55312,7 +55375,7 @@ ALTER TABLE `product_version_prices`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT for table `question_papers`
@@ -55330,7 +55393,7 @@ ALTER TABLE `quizzes`
 -- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -55366,7 +55429,7 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `stripe_transactions`
 --
 ALTER TABLE `stripe_transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `subject`
@@ -55420,7 +55483,7 @@ ALTER TABLE `tutors`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=937;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=941;
 
 --
 -- AUTO_INCREMENT for table `user_shipping`
