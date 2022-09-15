@@ -765,11 +765,13 @@ class Apicontroller extends Controller
                             ->first();
                         
                         if ($exist) return errorResponse("Schedule data already exist");                        
-                        if ($value["teacherId"] == '' || $value["day"] == '' || $value["date"] == '' || $value["time"] == '' || $value["available"] == '') return errorResponse("Teacher Id, Day, Date, Avaiable are required");
+                        if ($value["teacherId"] == '' || $value["day"] == '' || $value["date"] == '' || $value["time"] == '' || $value["available"] == '' || $value["duration"] == '' || $value["credit"] == '') return errorResponse("Teacher Id, Day, Date, Duration, Credit, Avaiable are required");
 
                         $newSchedule = new Schedule();
                         $newSchedule->teacherId = $value["teacherId"];
                         $newSchedule->day = $value["day"];
+                        $newSchedule->duration = $value["duration"];
+                        $newSchedule->credit = $value["credit"];
                         $newSchedule->date = date('Y-m-d',strtotime($value["date"]));
                         $newSchedule->time = date('H:i',strtotime($value["time"]));
                         $newSchedule->available = ($value["available"] == 'true') ? 1 : 0;
