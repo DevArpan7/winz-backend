@@ -47,8 +47,14 @@ Route::group(['middleware'=>'cors'],function(){ // Cors Middleware
 		Route::post('contact-us','Api\Apicontroller@contactUsFormSubmit');
 		Route::post('create-stripe-charge/by-token','Api\Apicontroller@createStripeCharge');
 		Route::post('purchaseBookingSlot-mentor','Api\Apicontroller@bookTheSlot');
+		Route::post('teacher-slot-book','Api\Apicontroller@bookTheCompleteSlot');
+
 		Route::get('booking-history','Api\Apicontroller@getBookingHistory');
+		Route::get('teachers-slot-booking-history','Api\Apicontroller@getTeacherSlotBookingHistory');
+
 		Route::get('slot-booking-history','Api\Apicontroller@getPaymentHistory');
+		Route::get('users-slot-booking-history','Api\Apicontroller@getSlotBookinHistory');
+
 		Route::post('buy_membership','Api\Apicontroller@bookMembership');
 		Route::get('user-membership-details','Api\Apicontroller@getUserMemberShip');
 		// Zoom Meeting

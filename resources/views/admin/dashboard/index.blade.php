@@ -77,8 +77,8 @@
                                 <th>User</th>
                                 <th>Course</th>
                                 <th>Chapter</th>
-                                <th>Price</th>
-                                <th>Transaction Id</th>
+                                <th>Credit</th>
+                                {{-- <th>Transaction Id</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -97,9 +97,9 @@
                                     <td>
                                         {{$booking->price}}
                                     </td>
-                                    <td>
-                                        {{$booking->transaction->transactionId}}
-                                    </td>
+                                    {{-- <td>
+                                        {{$booking->transaction ? $booking->transaction->transactionId : 'N/A'}}
+                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
