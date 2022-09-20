@@ -70,6 +70,7 @@ class MembershipRepository extends BaseRepository implements MembershipContract
             $Membership->description = $collection['description'];
             $Membership->price = $collection['price'];
             $Membership->credit = $collection['credit'];
+            $Membership->type = $collection['type'];
 
             //$Membership->offered_price = $collection['offered_price'];
 
@@ -95,6 +96,7 @@ class MembershipRepository extends BaseRepository implements MembershipContract
         $Membership->description = $collection['description'];
         $Membership->price = $collection['price'];
         $Membership->credit = $collection['credit'];
+        $Membership->type = $collection['type'];
 
         $Membership->save();
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 16, 2022 at 03:49 PM
+-- Generation Time: Sep 20, 2022 at 02:42 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -267,7 +267,9 @@ INSERT INTO `buy_member_ships` (`id`, `stripeTransactionId`, `membershipId`, `us
 (5, 42, 1, 698, 'user', 10000.00, NULL, '2021-07-15 11:34:53', '2022-07-20 08:23:32'),
 (6, 42, 1, 935, 'user', 10000.00, NULL, '2021-07-15 11:34:53', '2022-07-20 08:23:32'),
 (15, 54, 2, 940, 'user', 50000.00, NULL, '2022-09-13 08:35:59', '2022-09-13 08:35:59'),
-(16, 66, 2, 940, 'user', 50000.00, NULL, '2022-09-16 07:35:08', '2022-09-16 07:35:08');
+(16, 66, 2, 940, 'user', 50000.00, NULL, '2022-09-16 07:35:08', '2022-09-16 07:35:08'),
+(17, 67, 1, 940, 'user', 419900.00, NULL, '2022-09-20 11:49:19', '2022-09-20 11:49:19'),
+(18, 68, 4, 940, 'user', 69900.00, NULL, '2022-09-20 12:31:29', '2022-09-20 12:31:29');
 
 -- --------------------------------------------------------
 
@@ -49115,7 +49117,7 @@ INSERT INTO `creditlists` (`id`, `user_id`, `amount`, `created_at`, `updated_at`
 (6, 2, 400, '2022-09-13 06:56:40', '2020-11-23 18:30:00', NULL),
 (7, 3, 200, '2022-09-13 06:56:40', '2020-11-23 18:30:00', NULL),
 (8, 3, 400, '2022-09-13 06:56:40', '2020-11-23 18:30:00', NULL),
-(12, 940, 24503, '2022-09-16 10:48:35', '2022-09-16 10:48:35', NULL);
+(12, 940, 24510, '2022-09-20 12:31:29', '2022-09-20 12:31:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -49277,6 +49279,7 @@ INSERT INTO `level5` (`id`, `parent_id`, `name`, `size_chart`, `shipping_charge`
 
 CREATE TABLE `memberships` (
   `id` int(10) NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0: main membership\r\n1: Other packages',
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `big_description` mediumtext NOT NULL,
@@ -49290,9 +49293,10 @@ CREATE TABLE `memberships` (
 -- Dumping data for table `memberships`
 --
 
-INSERT INTO `memberships` (`id`, `title`, `description`, `big_description`, `price`, `credit`, `is_active`, `deleted_at`) VALUES
-(1, 'Gold', 'Gold Membership Plan', 'For Gold, same as silver, subscription last for 1 year and on top will get tutorial credit (6 credits)', 4199, 6, 1, NULL),
-(2, 'Silver', 'silver membership plan', 'For Silver, you should be able to choose a course and suscribe to it which will give you access to all the materials in the course (past paper, key concept...)', 999, 1, 1, NULL);
+INSERT INTO `memberships` (`id`, `type`, `title`, `description`, `big_description`, `price`, `credit`, `is_active`, `deleted_at`) VALUES
+(1, 0, 'Gold', 'Gold Membership Plan', 'For Gold, same as silver, subscription last for 1 year and on top will get tutorial credit (6 credits)', 4199, 6, 1, NULL),
+(2, 0, 'Silver', 'silver membership plan', 'For Silver, you should be able to choose a course and suscribe to it which will give you access to all the materials in the course (past paper, key concept...)', 999, 1, 1, NULL),
+(4, 1, '1 credit pacakage', 'Buy 1 credit for 699 HKD', '', 699, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -54297,7 +54301,9 @@ INSERT INTO `stripe_transactions` (`id`, `transactionId`, `balance_transaction`,
 (63, 'ch_3LhW8v2eZvKYlo2C1uVcKyif', 'txn_3LhW8v2eZvKYlo2C1wU4q7CV', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhW8r2eZvKYlo2CKgQSMpHZ', 'card', '12', '2023', '4242', NULL, '2022-09-13 10:15:02', '2022-09-13 10:15:02'),
 (64, 'ch_3LhXIi2eZvKYlo2C1lv8yoHl', 'txn_3LhXIi2eZvKYlo2C1nRxBVtg', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhXIe2eZvKYlo2CN9fm3cBe', 'card', '3', '2043', '4242', NULL, '2022-09-13 11:29:14', '2022-09-13 11:29:14'),
 (65, 'ch_3LhXJh2eZvKYlo2C0qBmAZtC', 'txn_3LhXJh2eZvKYlo2C05PGJaF1', 249500.00, 'Test payment from itsolutionstuff.com.', 'card_1LhXJd2eZvKYlo2CkWmsbvrf', 'card', '12', '2023', '4242', NULL, '2022-09-13 11:30:14', '2022-09-13 11:30:14'),
-(66, 'ch_3LiZ4p2eZvKYlo2C0hHOVH8e', 'txn_3LiZ4p2eZvKYlo2C0O00iw2s', 50000.00, 'Test payment from itsolutionstuff.com.', 'card_1LiZ4l2eZvKYlo2CmyyWYpOG', 'card', '12', '2023', '4242', NULL, '2022-09-16 07:35:08', '2022-09-16 07:35:08');
+(66, 'ch_3LiZ4p2eZvKYlo2C0hHOVH8e', 'txn_3LiZ4p2eZvKYlo2C0O00iw2s', 50000.00, 'Test payment from itsolutionstuff.com.', 'card_1LiZ4l2eZvKYlo2CmyyWYpOG', 'card', '12', '2023', '4242', NULL, '2022-09-16 07:35:08', '2022-09-16 07:35:08'),
+(67, 'ch_3Lk4wz2eZvKYlo2C0irzWash', 'txn_3Lk4wz2eZvKYlo2C0DTVX4M9', 419900.00, 'Test payment from itsolutionstuff.com.', 'card_1Lk4ww2eZvKYlo2CGwSuEA6u', 'card', '12', '2023', '4242', NULL, '2022-09-20 11:49:19', '2022-09-20 11:49:19'),
+(68, 'ch_3Lk5bn2eZvKYlo2C0ltmQYAm', 'txn_3Lk5bn2eZvKYlo2C0oHPkr7C', 69900.00, 'Test payment from itsolutionstuff.com.', 'card_1Lk5bk2eZvKYlo2CMJzs0TKO', 'card', '12', '2023', '4242', NULL, '2022-09-20 12:31:29', '2022-09-20 12:31:29');
 
 -- --------------------------------------------------------
 
@@ -54893,7 +54899,7 @@ INSERT INTO `users` (`id`, `membership_id`, `name`, `email`, `mobile`, `password
 (932, 1, 'Rajib Ali Khan', 'rajibalikhan299@gmail.com', '8617207525', '$2y$10$Xecnk6DDIcxiWxQfCOPvGeY6fZ.14uvm77uMMmsFYTLAFALwBsvWS', 'user', NULL, NULL, 0, '', NULL, '', '', 1, NULL),
 (933, NULL, 'Rajib Ali Khan', 'test@gmail.com', '8617207525', '$2y$10$norDrERk0Mb2M1ty5OKX9OKv7A2q92iJU6cCvyiA5XhgN3j9gDCCi', 'teacher', NULL, NULL, 1, '', NULL, '', '', 1, NULL),
 (935, 1, 'test', 'test2@gmail.com', '9865432258', '$2y$10$szypxIXrRx0CCsXCDdlDW.uOtRl6IB5W9m2NwCiEA9Dfr0cL2TPcm', 'user', NULL, NULL, 0, '', NULL, '', '', 1, NULL),
-(940, 2, 'Arpan Chanda', 'arpan@onenesstechs.in', '', '$2y$10$.WZFG4Fj1GVxf63KsmbEnuZwg9azcB7hu6W5EbThHwOPvnTnYi7O6', 'user', NULL, 'http://127.0.0.1:8000/assets/img/default_profile.jpg', 0, '', NULL, '', '', 1, NULL);
+(940, 4, 'Arpan Chanda', 'arpan@onenesstechs.in', '', '$2y$10$.WZFG4Fj1GVxf63KsmbEnuZwg9azcB7hu6W5EbThHwOPvnTnYi7O6', 'user', NULL, 'http://127.0.0.1:8000/assets/img/default_profile.jpg', 0, '', NULL, '', '', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -55412,7 +55418,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `buy_member_ships`
 --
 ALTER TABLE `buy_member_ships`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `carts`
@@ -55544,7 +55550,7 @@ ALTER TABLE `level5`
 -- AUTO_INCREMENT for table `memberships`
 --
 ALTER TABLE `memberships`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -55670,7 +55676,7 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `stripe_transactions`
 --
 ALTER TABLE `stripe_transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `subject`

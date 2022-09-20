@@ -61,7 +61,8 @@ class MembershipController extends BaseController
         $this->validate($request, [
             'title'     =>  'required',
             'price'     =>  'required',
-            'credit'    =>  'required'
+            'credit'    =>  'required',
+            'type'    =>  'required|numeric'
         ]);
 
         $params = $request->except('_token');
@@ -100,7 +101,8 @@ class MembershipController extends BaseController
         $this->validate($request, [
             'title'     =>  'required',
             'price'     =>  'required',
-            'credit'    =>  'required'
+            'credit'    =>  'required',
+            'type'    =>  'required|numeric'
         ]);
 
         $params = $request->except('_token');

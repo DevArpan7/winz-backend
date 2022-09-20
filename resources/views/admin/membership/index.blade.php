@@ -27,6 +27,7 @@
                                 <!-- <th> Sl No </th> -->
                                 <th> Title </th>
                                 <th> Description </th>
+                                <th> Type </th>
                                 <th> Price </th>
                                 <th> Credit </th>
                                 <th> Status </th>
@@ -62,6 +63,11 @@
                     {data: 'description', name: 'description',
                         render: function( data, type, full, meta ) {
                             return data.substr(0,210)+' ...';
+                        }
+                    },
+                    {data: 'type', name: 'type', 
+                        render: function( data, type, full, meta ) {
+                            return data == 0 ? 'Primary Membership' : 'Credit Package'
                         }
                     },
                     {data: 'price', name: 'price'},

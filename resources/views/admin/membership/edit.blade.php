@@ -25,6 +25,15 @@
                 <form action="{{ route('admin.membership.update') }}" method="POST" role="form" enctype="multipart/form-data" id="form1">
                     @csrf
                     <div class="tile-body form-body">
+
+                        <div class="form-group">
+                            <label class="control-label" for="type">Membership type <span class="m-l-5 text-danger"> *</span></label>
+                            <select class="form-control @error('type') is-invalid @enderror" type="text" name="type" id="type" value="{{ old('type') }}">
+                                <option value="0" selected="{{$targetmembership->type == 0? true: false}}">Primary Membership</option>
+                                <option value="1" selected="{{$targetmembership->type == 1? true: false}}">Credit Package</option>
+                            </select>
+                            @error('type') {{ $message }} @enderror
+                        </div>
                         
                         <div class="form-group">
                             <label class="control-label" for="title">Membership Title <span class="m-l-5 text-danger"> *</span></label>

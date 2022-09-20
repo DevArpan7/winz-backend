@@ -21,6 +21,15 @@
                     <div class="tile-body form-body">
                         
                         <div class="form-group">
+                            <label class="control-label" for="type">Membership type <span class="m-l-5 text-danger"> *</span></label>
+                            <select class="form-control @error('type') is-invalid @enderror" type="text" name="type" id="type" value="{{ old('type') }}">
+                                <option value="0" selected>Primary Membership</option>
+                                <option value="1">Credit Package</option>
+                            </select>
+                            @error('type') {{ $message }} @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label class="control-label" for="title">Membership Title <span class="m-l-5 text-danger"> *</span></label>
                             <input class="form-control @error('title') is-invalid @enderror" type="text" name="title" id="title" value="{{ old('title') }}"/>
                             @error('title') {{ $message }} @enderror

@@ -1354,6 +1354,11 @@ class Apicontroller extends Controller
         return errorResponse($validator->errors()->first());
     }
 
+    // public function buyCredits(Request $req)
+    // {
+    //     # code...
+    // }
+
     public function userDashboard(Request $req) {
         if ($req->userType == "user") {
             # code...

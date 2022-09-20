@@ -11,7 +11,7 @@ class Membership extends Model
     protected $table = 'memberships';
 
 	protected $fillable = [
-	   'id', 'title', 'description', 'price', 'is_active', 'credit'
+	   'id', 'title', 'description', 'price', 'is_active', 'credit', 'type'
 	];
 
 	public $timestamps = false;
