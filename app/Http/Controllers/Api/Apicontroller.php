@@ -975,6 +975,12 @@ class Apicontroller extends Controller
         return sendResponse('MemberShip List',$data);
     }
 
+    public function getFaqs(Request $req)
+    {
+        $commonQuestion = CommonQuestion::where('membership_id', 0)->get();
+        return sendResponse('MemberShip List',$commonQuestion);
+    }
+
     public function getUserMemberShip(Request $req)
     {
         $memberShip = BuyMemberShip::select('*')->with('membership')->with('transactionDetails')->get();
@@ -1078,104 +1084,41 @@ class Apicontroller extends Controller
         return errorResponse($validator->errors()->first());
     }
 
-    // public function bookTheSlot(Request $req)
-    // {
-    //     $rules = [
-    //         'stripeTransactionId' => 'required|numeric|min:1',
-    //         'slotId' => 'required|numeric|min:1',
-    //         'userId' => 'required|numeric|min:1',
-    //         'userType' => 'required|string|in:user,teacher',
-    //     ];
-    //     $validator = validator()->make($req->all(),$rules);
-    //     if(!$validator->fails()){
-    //         DB::beginTransaction();
-    //         try {
-    //             $stripe = StripeTransaction::where('id',$req->stripeTransactionId)->first();
-    //             $slot = Schedule::where('id',$req->slotId)->first();
-    //             $booking = new TeacherBooking();
-    //             $booking->stripeTransactionId = $stripe->id;
-    //             $booking->userId = $req->userId;
-    //             $booking->teacherId = $slot->teacherId;
-    //             $booking->scheduleId = $slot->id;
-    //             $booking->price = $stripe->amount;
-    //             $booking->save();
-    //             $slot->available = 2;
-    //             $slot->save();
-    //             $data = [
-    //                 'stripe' => $stripe,
-    //                 'Schedule' => $slot,
-    //                 'booking' => $booking,
-    //             ];
-    //             $this->createZoomMeeting($booking,$slot,$req->userType);
-    //             DB::commit();
-    //             return sendResponse('Slot Booked Success',$data);
-    //         }catch (Exception $e) {
-    //             DB::rollback();
-    //             return errorResponse('Something went wring please try after some time');
-    //         }
-    //     }
-    //     return errorResponse($validator->errors()->first());
-    // }
-
-    /**
-     * New version of bookTheSlot()
-     */
-    public function bookTheCompleteSlot(Request $req)
+    public function bookTheSlot(Request $req)
     {
         $rules = [
-            'userId'    =>  'required|numeric|min:1',
-            'teacherId' =>  'required|numeric|min:1'
+            'slotId' => 'required|numeric|min:1',
+            'userId' => 'required|numeric|min:1',
+            'userType' => 'required|string|in:user,teacher',
         ];
         $validator = validator()->make($req->all(),$rules);
         if(!$validator->fails()){
             DB::beginTransaction();
             try {
-                $slotDatas = [];
-                $bookingDatas = [];
-                
-                //user credit check and update
-                $userCredit = Creditlist::where('user_id', $req->userId)->first();
-                if ($userCredit->amount <= 0) return errorResponse("You do not have enough credit to purchase.");
-                $userCredit->amount = $userCredit->amount - $req->credit;
-                $userCredit->save();
-
-                //slots find
-                $slots = Schedule::where('teacherId', $req->teacherId)
-                        ->where('day', $req->day)
-                        ->where('time', $req->time)
-                        ->get();
-                
-                //book slots
-                foreach ($slots as $key => $slot) {
-                    # code...
-                    $slotData = Schedule::where('id', $slot->id)->first();
-                    $booking = new TeacherBooking();
-                    $booking->userId = $req->userId;
-                    $booking->teacherId = $req->teacherId;
-                    $booking->scheduleId = $slot->id;
-                    $booking->price = $slot->credit;
-                    $booking->slot_time = date('H:i',strtotime($slot->time));
-                    $booking->slot_day = $slot->day;
-                    $booking->save();
-                    array_push($bookingDatas, $booking);
-                    $slotData->available = 2;
-                    $slotData->save();
-                    array_push($slotDatas, $slotData);
-                }
-                $zoom = $this->createZoomMeeting($req->all(), $req->userType);
-
-                foreach ($bookingDatas as $key => $bookingVal) {
-                    $tecaherBooking = TeacherBooking::where('id', $bookingVal->id)->first();
-                    $tecaherBooking->zoom_id = $zoom->id;
-                    $tecaherBooking->save();
-                }
-
+                // $stripe = StripeTransaction::where('id',$req->stripeTransactionId)->first();
+                $slot = Schedule::where('id',$req->slotId)->first();
+                $booking = new TeacherBooking();
+                $booking->stripeTransactionId = '';
+                $booking->userId = $req->userId;
+                $booking->teacherId = $slot->teacherId;
+                $booking->scheduleId = $slot->id;
+                $booking->price = $slot->credit;
+                $booking->slot_time = $slot->time;
+                $booking->slot_day = $slot->day;
+                $booking->zoom_id = $slot->credit;
+                $booking->save();
+                $slot->available = 2;
+                $slot->save();
+                $zoom = $this->createZoomMeeting($slot,$req->userId,$req->userType);
+                $tecaherBooking = TeacherBooking::where('id', $booking->id)->first();
+                $tecaherBooking->zoom_id = $zoom->id;
+                $tecaherBooking->save();
                 $data = [
-                    'slots'     =>  $slotDatas,
-                    'booking'   =>  $bookingDatas,
-                    'zoom'      =>  $zoom
+                    'Schedule'  =>  $slot,
+                    'booking'   =>  $tecaherBooking,
+                    'zoom'      =>  $zoom,
+                    'slotTime'  =>  date('Y-m-d',strtotime($slot->date)).'T'.date($slot->time)
                 ];
-
                 DB::commit();
                 return sendResponse('Slot Booked Success',$data);
             }catch (Exception $e) {
@@ -1186,13 +1129,82 @@ class Apicontroller extends Controller
         return errorResponse($validator->errors()->first());
     }
 
+    /**
+     * New version of bookTheSlot()
+     */
+    // public function bookTheCompleteSlot(Request $req)
+    // {
+    //     $rules = [
+    //         'userId'    =>  'required|numeric|min:1',
+    //         'teacherId' =>  'required|numeric|min:1'
+    //     ];
+    //     $validator = validator()->make($req->all(),$rules);
+    //     if(!$validator->fails()){
+    //         DB::beginTransaction();
+    //         try {
+    //             $slotDatas = [];
+    //             $bookingDatas = [];
+                
+    //             //user credit check and update
+    //             $userCredit = Creditlist::where('user_id', $req->userId)->first();
+    //             if ($userCredit->amount <= 0) return errorResponse("You do not have enough credit to purchase.");
+    //             $userCredit->amount = $userCredit->amount - $req->credit;
+    //             $userCredit->save();
+
+    //             //slots find
+    //             $slots = Schedule::where('teacherId', $req->teacherId)
+    //                     ->where('day', $req->day)
+    //                     ->where('time', $req->time)
+    //                     ->get();
+                
+    //             //book slots
+    //             foreach ($slots as $key => $slot) {
+    //                 # code...
+    //                 $slotData = Schedule::where('id', $slot->id)->first();
+    //                 $booking = new TeacherBooking();
+    //                 $booking->userId = $req->userId;
+    //                 $booking->teacherId = $req->teacherId;
+    //                 $booking->scheduleId = $slot->id;
+    //                 $booking->price = $slot->credit;
+    //                 $booking->slot_time = date('H:i',strtotime($slot->time));
+    //                 $booking->slot_day = $slot->day;
+    //                 $booking->save();
+    //                 array_push($bookingDatas, $booking);
+    //                 $slotData->available = 2;
+    //                 $slotData->save();
+    //                 array_push($slotDatas, $slotData);
+    //             }
+    //             $zoom = $this->createZoomMeeting($req->all(), $req->userType);
+
+    //             foreach ($bookingDatas as $key => $bookingVal) {
+    //                 $tecaherBooking = TeacherBooking::where('id', $bookingVal->id)->first();
+    //                 $tecaherBooking->zoom_id = $zoom->id;
+    //                 $tecaherBooking->save();
+    //             }
+
+    //             $data = [
+    //                 'slots'     =>  $slotDatas,
+    //                 'booking'   =>  $bookingDatas,
+    //                 'zoom'      =>  $zoom
+    //             ];
+
+    //             DB::commit();
+    //             return sendResponse('Slot Booked Success',$data);
+    //         }catch (Exception $e) {
+    //             DB::rollback();
+    //             return errorResponse('Something went wring please try after some time');
+    //         }
+    //     }
+    //     return errorResponse($validator->errors()->first());
+    // }
+
     // Zoom Meeting Integration
-    public function createZoomMeeting($slotData, $userType)
+    public function createZoomMeeting($slotData, $userId, $userType)
     {
         $getTeacherDetails = Teacher::where('id', $slotData["teacherId"])->first();
-        // return sendResponse('Zoom Meeting Created Success', ["getTeacherDetails" => $getTeacherDetails, "slotData" => $slotData, "userType" => $userType]);
+        // return sendResponse('Zoom Meeting Created Success', ["slotData" => $slotData, "userType" => $userType]);
         $topic = 'Meeting with '.$getTeacherDetails->name.' at '.$slotData["date"].' '.$slotData["time"];
-        $startTime = date('Y-m-d',strtotime($slotData["date"])).' '.date('h:i:s',strtotime($slotData["time"]));
+        $startTime = date('Y-m-d',strtotime($slotData["date"])).'T'.date($slotData["time"]);
 
         $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.zoom.us']);
         $response = $client->request('POST', '/v2/users/me/meetings', [
@@ -1202,7 +1214,8 @@ class Apicontroller extends Controller
             'json' => [
                 "topic" => $topic,
                 "type" => 2,
-                "start_time" => $startTime,
+                "start_time" => "2022-09-04T09:30:00",
+                "timezone" => "GMT+8:00",
                 "duration" => $slotData["duration"], // 30 mins
                 "password" => rand(),
                 "agenda" => 'Scheduled Class',
@@ -1213,7 +1226,7 @@ class Apicontroller extends Controller
             $newMeeting = new ZoomMeeting;
             $newMeeting->teacherId = $slotData["teacherId"];
             $newMeeting->userType = $userType;
-            $newMeeting->userId = $slotData["userId"];
+            $newMeeting->userId = $userId;
             $newMeeting->uuid = $data->uuid;
             $newMeeting->meetingId = $data->id;
             $newMeeting->host_id = $data->host_id;
@@ -1294,7 +1307,9 @@ class Apicontroller extends Controller
 
     public function getSlotBookinHistory(Request $req)
     {
-        $data = TeacherBooking::select('*')->groupBy("userId", "teacherId", "slot_time", "slot_day")->with('teacherInfo')->with('slotInfo');
+        // $data = TeacherBooking::select('*')->groupBy("userId", "teacherId", "slot_time", "slot_day")->with('teacherInfo')->with('slotInfo');
+        $data = TeacherBooking::select('*')->with('teacherInfo')->with('slotInfo');
+
         if(!empty($req->userId)){
             $data = $data->where('userId',$req->userId);
         }
@@ -1353,11 +1368,6 @@ class Apicontroller extends Controller
         }
         return errorResponse($validator->errors()->first());
     }
-
-    // public function buyCredits(Request $req)
-    // {
-    //     # code...
-    // }
 
     public function userDashboard(Request $req) {
         if ($req->userType == "user") {
