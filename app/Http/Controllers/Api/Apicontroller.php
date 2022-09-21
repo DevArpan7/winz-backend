@@ -1214,8 +1214,7 @@ class Apicontroller extends Controller
             'json' => [
                 "topic" => $topic,
                 "type" => 2,
-                "start_time" => "2022-09-04T09:30:00",
-                "timezone" => "GMT+8:00",
+                "start_time" => $startTime,
                 "duration" => $slotData["duration"], // 30 mins
                 "password" => rand(),
                 "agenda" => 'Scheduled Class',
